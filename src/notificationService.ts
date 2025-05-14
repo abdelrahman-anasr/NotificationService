@@ -14,6 +14,8 @@ import * as postmark from "postmark";
 import { create } from "domain";
 
 (async function () { 
+
+    dotenv.config();
     const prisma = new PrismaClient();
 
     let notifications = [];
@@ -23,7 +25,7 @@ import { create } from "domain";
 
     const kafka = new Kafka({
         clientId: "NotificationService",
-        brokers: ["localhost:9092"],
+        brokers: [process.env.KAFKA_URL],
     });
 
     const producer = kafka.producer({
