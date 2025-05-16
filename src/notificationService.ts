@@ -208,7 +208,7 @@ import { create } from "domain";
 
     const app = express() as any;
     var corsOptions = {
-        origin : "http://localhost:3000",
+        origin : ["https://giu-pooling-frontend-production.up.railway.app" , "https://giu-pooling-frontend-production.up.railway.app/"],
         credentials: true
     }
     app.use(cors(corsOptions));
