@@ -126,7 +126,7 @@ import { create } from "domain";
 
     const resolvers = {
         Query: {
-            fetchMyNotifications: async(_parent : any , args : any , {req , res} : any) => {
+            fetchMyNotifications: async(_ , __ , {req , res} : any) => {
                 if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
                 {
                     const userId = fetchId(req.headers.cookie);
