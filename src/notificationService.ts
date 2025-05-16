@@ -125,7 +125,7 @@ import * as postmark from "postmark";
 
     const resolvers = {
         DateTime: DateTimeResolver,
-        JSON: JSONResolver,
+        Json: JSONResolver,
         Query: {
             fetchMyNotifications: async(_ , __ , {req , res} : any) => {
                 if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
