@@ -118,6 +118,8 @@ import { create } from "domain";
 
         type Mutation {
             createNotification(type : String! , to : String! , data : Json!): Notification
+            setNotificationAsRead(id : Int!): Notification
+            setNoficationsAsRead(ids : [Int]!): [Notification]
         }
 
     `;
@@ -157,6 +159,44 @@ import { create } from "domain";
                 {
                     const notification = await createNotification(args.type , args.message , args.to);
                     return notification;
+                }
+                else
+                {
+                    throw new Error("Unauthorized");
+                }
+            },
+            setNotificationAsRead: async(_parent : any , args : any , {req , res} : any) => {
+                if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
+                {
+                    const notification = await prisma.notification.update({
+                        where: {
+                            id: args.id
+                        },
+                        data: {
+                            opened: true
+                        }
+                    });
+                    return notification;
+                }
+                else
+                {
+                    throw new Error("Unauthorized");
+                }
+            },
+            setNoficationsAsRead: async(_parent : any , args : any , {req , res} : any) => {
+                if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
+                {
+                    const notifications = await prisma.notification.updateMany({
+                        where: {
+                            id: {
+                                in: args.ids
+                            }
+                        },
+                        data: {
+                            opened: true
+                        }
+                    });
+                    return notifications;
                 }
                 else
                 {
