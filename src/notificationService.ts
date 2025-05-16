@@ -11,8 +11,6 @@ import { checkAuth , fetchRole , fetchId} from "./authorizer.ts";
 import {PrismaClient } from "@prisma/client";
 import {Kafka , Partitioners , logLevel} from "kafkajs";
 import * as postmark from "postmark";
-import { create } from "domain";
-import { DateTime } from "graphql-scalars/typings/mocks";
 
 (async function () { 
 
