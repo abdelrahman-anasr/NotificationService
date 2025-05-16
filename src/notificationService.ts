@@ -12,6 +12,7 @@ import {PrismaClient } from "@prisma/client";
 import {Kafka , Partitioners , logLevel} from "kafkajs";
 import * as postmark from "postmark";
 import { create } from "domain";
+import { DateTime } from "graphql-scalars/typings/mocks";
 
 (async function () { 
 
@@ -125,6 +126,8 @@ import { create } from "domain";
     `;
 
     const resolvers = {
+        DateTime: DateTimeResolver,
+        JSON: JSONResolver,
         Query: {
             fetchMyNotifications: async(_ , __ , {req , res} : any) => {
                 if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
