@@ -129,11 +129,13 @@ import { create } from "domain";
             fetchMyNotifications: async(_parent : any , args : any , {req , res} : any) => {
                 if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
                 {
+                    const userId = fetchId(req.headers.cookie);
                     const notifications = await prisma.notification.findMany({
                         where: {
-                            receiverId: fetchId(req.headers.cookie)
+                            receiverId: userId
                         }
                     });
+                    console.log("Returning: " , JSON.stringify(notifications));
                     return notifications;
                 }
                 else
