@@ -106,10 +106,12 @@ import { create } from "domain";
             subject: String!
             message: String!
             receiverId: Int!
-
+            opened: Boolean!
+            createdAt: DateTime!
         }
 
         type Query {
+            fetchMyNotifications: [Notification]
             fetchAllNotifications: [Notification]
             
         }
@@ -122,6 +124,21 @@ import { create } from "domain";
 
     const resolvers = {
         Query: {
+            fetchMyNotifications: async(_parent : any , args : any , {req , res} : any) => {
+                if(checkAuth(["admin" , "driver" , "student"] , fetchRole(req.headers.cookie)))
+                {
+                    const notifications = await prisma.notification.findMany({
+                        where: {
+                            receiverId: fetchId(req.headers.cookie)
+                        }
+                    });
+                    return notifications;
+                }
+                else
+                {
+                    throw new Error("Unauthorized");
+                }
+            },
             fetchAllNotifications: async(_parent : any , args : any , {req , res} : any) => {
                 if(checkAuth(["admin"] , fetchRole(req.headers.cookie)))
                 {

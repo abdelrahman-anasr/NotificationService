@@ -18,6 +18,8 @@ model Notification {
   subject   String
   message   String
   receiverId Int
+  opened    Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
 
 model UserEmails {
